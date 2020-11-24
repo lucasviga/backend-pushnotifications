@@ -20,7 +20,6 @@ async function loadApplications() {
   statusDowndetector.push(response.data.result);
 
   const filter = statusDowndetector[0].filter(item => item.lastvalue === '3' && item.type !== '5');
-  console.log(filter);
 
   if(filter) {
     const getAppName = filter[0].name;
@@ -37,8 +36,6 @@ async function loadApplications() {
           },
         },
       );
-
-      console.log('** >> **', response.data);
     }
 
     var message = {
@@ -48,8 +45,6 @@ async function loadApplications() {
     };
 
     sendNotification(message);
-
-    console.log('enviar notificacao para:', appName);
   }
 
   if (filter.length <= 0) {
