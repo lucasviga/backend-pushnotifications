@@ -22,7 +22,7 @@ async function loadApplications() {
             "hostids": "10084",
             "sortfield": "name"
         },
-        auth: "ea698574a0ecfc0fc7917744e2cdca22",
+        auth: `${process.env.ZABBIX_AUTHORIZATION}`,
         id: 1
       });
 
@@ -34,37 +34,37 @@ async function loadApplications() {
     }
   }, 1000);
 
-  // if(filter) {
-  //   for(x in filter) {
-  //     const getAppName = filter[x].name;
-  //     const fullAppName = getAppName.split(' ');
-  //     var appName = fullAppName[1] ? getAppName.substr(getAppName.indexOf(' ') + 1) : '';
+  if(filter) {
+    for(x in filter) {
+      const getAppName = filter[x].name;
+      const fullAppName = getAppName.split(' ');
+      var appName = fullAppName[1] ? getAppName.substr(getAppName.indexOf(' ') + 1) : '';
 
-  //     async function sendNotification(data) {
-  //       const response = await axios.post(
-  //         'https://onesignal.com/api/v1/notifications',
-  //         data, {
-  //           headers: {
-  //             'Content-Type': 'application/json; charset=utf-8',
-  //             'Authorization': 'Basic OWQ0NDM3N2MtOWJjMS00NzAxLTliZDItMDE5M2MwMWE4YjEz',
-  //           },
-  //         },
-  //       );
-  //     }
+      async function sendNotification(data) {
+        const response = await axios.post(
+          'https://onesignal.com/api/v1/notifications',
+          data, {
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              'Authorization': `Basic ${process.env.ONESIGNAL_AUTHORIZATION}`,
+            },
+          },
+        );
+      }
 
-  //     var message = {
-  //       app_id: '0760b424-f6cd-4a7b-acc1-5ac06a997b9c',
-  //       contents: {'en': `Hmmm... Possíveis problemas estão ocorrendo em ${appName}. Saiba mais em: downdetector.com.br`},
-  //       included_segments: ['All'],
-  //     };
+      var message = {
+        app_id: process.env.ONESIGNAL_APP_ID,
+        contents: {'en': `Hmmm... Possíveis problemas estão ocorrendo em ${appName}. Saiba mais em: downdetector.com.br`},
+        included_segments: ['All'],
+      };
 
-  //     sendNotification(message);
-  //   }
-  // }
+      sendNotification(message);
+    }
+  }
 
-  // if (filter.length <= 0) {
-  //   return console.log('nenhuma aplicacao no nivel de atencao 3');
-  // }
+  if (filter.length <= 0) {
+    return console.log('nenhuma aplicacao no nivel de atencao 3');
+  }
 }
 
 loadApplications();
