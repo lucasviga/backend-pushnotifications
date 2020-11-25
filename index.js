@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const apiURL = "http://monitor.clickip.com.br/api_jsonrpc.php";
+const apiURL = process.env.ZABBIX_URL;
 
 var statusDowndetector = [];
 
@@ -42,7 +42,7 @@ async function loadApplications() {
 
       async function sendNotification(data) {
         const response = await axios.post(
-          'https://onesignal.com/api/v1/notifications',
+          `${process.env.ONESIGNAL_URL}`,
           data, {
             headers: {
               'Content-Type': 'application/json; charset=utf-8',
